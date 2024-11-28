@@ -15,7 +15,7 @@ if [ ! -f "delete.txt" ]; then
     exit 1
 fi
 
-echo -n "GitHubユーザー名を入力してください: "
+echo "GitHubユーザー名を入力してください: "
 read uname
 
 if [ -z "$uname" ]; then
@@ -25,14 +25,14 @@ fi
 
 # 削除対象のリポジトリを表示
 echo "以下のリポジトリを削除します："
-while read line; do
-    if [ ! -z "$line" ]; then
-        echo "- $uname/$line"
+while IFS= read -r repo || [ -n "$repo" ]; do
+    if [ ! -z "$repo" ]; then
+        echo "- $uname/$repo"
     fi
-done < delete.txt
+done < "delete.txt"
 
 # 確認プロンプト
-echo -n "続行しますか？ (y/N): "
+echo "続行しますか？ (y/N): "
 read confirm
 
 if [ "$confirm" != "y" ] && [ "$confirm" != "Y" ]; then
@@ -42,9 +42,9 @@ fi
 
 # リポジトリの削除を実行
 echo "削除を開始します..."
-while read line; do
-    if [ ! -z "$line" ]; then
-        reponame="$uname/$line"
+while IFS= read -r repo || [ -n "$repo" ]; do
+    if [ ! -z "$repo" ]; then
+        reponame="$uname/$repo"
         echo "削除中: $reponame"
         if gh repo delete "$reponame" --yes; then
             echo "✓ $reponame を削除しました"
@@ -52,6 +52,6 @@ while read line; do
             echo "⚠ $reponame の削除に失敗しました"
         fi
     fi
-done < delete.txt
+done < "delete.txt"
 
 echo "処理が完了しました"
