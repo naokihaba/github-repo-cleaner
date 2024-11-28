@@ -1,47 +1,47 @@
 # GitHub Repo Cleaner
 
-GitHubのリポジトリを一括で削除するためのツールです。
+A tool for bulk deletion of GitHub repositories.
 
-## 機能
+## Features
 
-- 削除対象のリポジトリ一覧の表示
-- リポジトリの一括削除
+- Display list of repositories to be deleted
+- Bulk repository deletion
 
-## セットアップ
+## Setup
 
-1. このリポジトリをクローン
+1. Clone this repository
 
 ```bash
 $ git clone https://github.com/yourusername/github-repo-cleaner.git
 $ cd github-repo-cleaner
 ```
 
-2. 初期設定
+2. Initial setup
 
 ```bash
 $ make init
 ```
 
-3. GitHubのPersonal Access Tokenを設定
+3. Configure GitHub Personal Access Token
 
 ```bash
 $ gh auth refresh -h github.com -s delete_repo
 ```
 
-## 使用方法
+## Usage
 
-### 削除対象のリポジトリ一覧を表示
+### Display list of repositories to be deleted
 
 ```bash
 $ make list-delete-repos
 ```
 
-### リポジトリの一括削除を実行
+### Execute bulk repository deletion
 
-- `delete.txt` に削除対象リポジトリ名を入力後に実施する
+- Execute after entering target repository names in `delete.txt`
 
 ```bash
 $ make delete-repos
 ```
 
-⚠️ **注意**: リポジトリの削除は取り消しできません。実行前に必ずリポジトリ一覧を確認してください。
+⚠️ **Warning**: Repository deletion cannot be undone. Always verify the repository list before execution.
