@@ -1,18 +1,18 @@
 #!/bin/bash
 
-# 出力ファイル名を設定
+# Set output filename
 output_file="github_repos.txt"
 
-echo "GitHubリポジトリ一覧を取得します"
-echo "ユーザー名を入力してください："
+echo "Fetching GitHub repository list"
+echo "Enter your GitHub username:"
 read username
 
 if [ -z "$username" ]; then
-    echo "ユーザー名が入力されていません"
+    echo "Error: Username not provided"
     exit 1
 fi
 
-# リポジトリ名のみを取得してファイルに出力
+# Get repository names and save to file
 gh repo list $username --limit 300 --json name -q '.[].name' > "$output_file"
 
-echo "リポジトリ名を ${output_file} に保存しました"
+echo "Repository names have been saved to ${output_file}"

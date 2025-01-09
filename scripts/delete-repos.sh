@@ -1,57 +1,57 @@
 #!/bin/bash
 
-# エラーハンドリングを有効化
+# Enable error handling
 set -e
 
-# GitHub CLIの存在確認
+# Check if GitHub CLI is installed
 if ! command -v gh &> /dev/null; then
-    echo "Error: GitHub CLI (gh) がインストールされていません"
+    echo "Error: GitHub CLI (gh) is not installed"
     exit 1
 fi
 
-# delete.txtの存在確認
+# Check if delete.txt exists
 if [ ! -f "delete.txt" ]; then
-    echo "Error: delete.txt が見つかりません"
+    echo "Error: delete.txt not found"
     exit 1
 fi
 
-echo "GitHubユーザー名を入力してください: "
+echo "Enter your GitHub username: "
 read uname
 
 if [ -z "$uname" ]; then
-    echo "Error: ユーザー名が入力されていません"
+    echo "Error: Username not provided"
     exit 1
 fi
 
-# 削除対象のリポジトリを表示
-echo "以下のリポジトリを削除します："
+# Display repositories to be deleted
+echo "The following repositories will be deleted:"
 while IFS= read -r repo || [ -n "$repo" ]; do
     if [ ! -z "$repo" ]; then
         echo "- $uname/$repo"
     fi
 done < "delete.txt"
 
-# 確認プロンプト
-echo "続行しますか？ (y/N): "
+# Confirmation prompt
+echo "Do you want to proceed? (y/N): "
 read confirm
 
 if [ "$confirm" != "y" ] && [ "$confirm" != "Y" ]; then
-    echo "削除をキャンセルしました"
+    echo "Operation cancelled"
     exit 0
 fi
 
-# リポジトリの削除を実行
-echo "削除を開始します..."
+# Execute repository deletion
+echo "Starting deletion process..."
 while IFS= read -r repo || [ -n "$repo" ]; do
     if [ ! -z "$repo" ]; then
         reponame="$uname/$repo"
-        echo "削除中: $reponame"
+        echo "Deleting: $reponame"
         if gh repo delete "$reponame" --yes; then
-            echo "✓ $reponame を削除しました"
+            echo "✓ Successfully deleted $reponame"
         else
-            echo "⚠ $reponame の削除に失敗しました"
+            echo "⚠ Failed to delete $reponame"
         fi
     fi
 done < "delete.txt"
 
-echo "処理が完了しました"
+echo "Process completed"
