@@ -33,7 +33,7 @@ $ gh auth refresh -h github.com -s delete_repo
 ### Display list of repositories to be deleted
 
 ```bash
-$ make list-delete-repos
+$ make list-all-repos
 ```
 
 ### Execute bulk repository deletion
